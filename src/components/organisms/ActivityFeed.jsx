@@ -46,13 +46,13 @@ function EventIcon({ type, side, event }) {
     );
 }
 
-function FeedRow({ event, isLast }) {
+function FeedRow({ event, isLast, now }) {
     const isCopy = event.type === 'copy_event';
     const isPositive = event.realizedPnl !== undefined ? event.realizedPnl >= 0 : true;
     const label = EVENT_LABELS[event.event] || event.event;
 
     const timeAgo = (() => {
-        const diff = (Date.now() - event.timestamp) / 1000;
+        const diff = (now - event.timestamp) / 1000;
         if (diff < 60) return `${Math.round(diff)}s ago`;
         if (diff < 3600) return `${Math.round(diff / 60)}m ago`;
         return `${Math.round(diff / 3600)}h ago`;
@@ -126,7 +126,7 @@ function FeedRow({ event, isLast }) {
     );
 }
 
-export function ActivityFeed({ events = [] }) {
+export function ActivityFeed({ events = [], now }) {
     return (
         <div className="bg-surface border border-border/60 rounded-[28px] overflow-hidden flex flex-col shadow-[0_4px_30px_-10px_rgba(0,0,0,0.1)] relative">
 
@@ -169,7 +169,7 @@ export function ActivityFeed({ events = [] }) {
                         </div>
                     ) : (
                         events.map((e, i) => (
-                            <FeedRow key={i} event={e} isLast={i === events.length - 1} />
+                            <FeedRow key={i} event={e} isLast={i === events.length - 1} now={now} />
                         ))
                     )}
                 </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Users, TrendingUp, TrendingDown, Star, ChevronRight, Award, Shield, Zap, Info, CheckCircle2, Copy } from 'lucide-react';
 
 // --- Reusable Mini Components ---
@@ -129,7 +129,7 @@ function ProviderRow({ provider, rank, isSelected, onSelect }) {
 // --- Main Component ---
 export function Leaderboard({ providers = [] }) {
     const [selectedId, setSelectedId] = useState(providers[0]?.id || null);
-    const selectedProvider = providers.find(p => p.id === selectedId) || providers[0];
+    const selectedProvider = useMemo(() => providers.find(p => p.id === selectedId) || providers[0], [providers, selectedId]);
 
     return (
         <div className="flex flex-col gap-4">

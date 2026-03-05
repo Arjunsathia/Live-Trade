@@ -51,6 +51,8 @@ export function Dashboard() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    const [now] = useState(() => Date.now());
+
     return (
         <div className="flex bg-bg transition-colors duration-300 min-h-screen">
             {/* Sidebar */}
@@ -107,7 +109,7 @@ export function Dashboard() {
 
                             {/* Recent Activity */}
                             <div className="animate-fade-up delay-3 w-full">
-                                <ActivityFeed events={activityEvents} />
+                                <ActivityFeed events={activityEvents} now={now} />
                             </div>
 
                         </div>

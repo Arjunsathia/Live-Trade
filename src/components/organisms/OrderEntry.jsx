@@ -9,7 +9,7 @@ const PAIRS = [
     { s: 'XAUUSD', p: 2038.45, sp: 2.5 },
 ];
 
-export function OrderEntry({ balance = 84250.00 }) {
+export function OrderEntry() {
     const [side, setSide] = useState('buy');
     const [orderType, setOrderType] = useState('market');
     const [symbol, setSymbol] = useState('EURUSD');

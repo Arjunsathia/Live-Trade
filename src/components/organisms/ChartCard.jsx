@@ -21,7 +21,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     return null;
 };
 
-const generateForexData = (filter) => {
+const generateForexData = () => {
     const base = 1.08430;
     const count = 40;
     return Array.from({ length: count }, (_, i) => ({

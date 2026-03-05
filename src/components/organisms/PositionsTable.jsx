@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { X, TrendingUp, TrendingDown, BarChart2, ShieldAlert, Crosshair, HelpCircle } from 'lucide-react';
 
 function SideBadge({ side }) {
