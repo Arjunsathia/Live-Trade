@@ -1,0 +1,219 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-display: "JetBrains Mono", monospace;
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Colors mapped exactly as named in the prompt */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-2);
+  --color-muted-surface: var(--muted-surface);
+
+  --color-border: var(--border);
+  --color-glass: var(--glass);
+
+  --color-primary: var(--brand);
+  --color-primary-hover: var(--brand-strong);
+
+  --color-secondary: var(--accent);
+
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+
+  --color-positive: var(--brand); /* Using brand green for positive */
+  --color-negative: #ff4560; /* Standard red for negative */
+
+  /* Retaining mapping for multi-file components */
+  --color-text-secondary: var(
+    --text-muted
+  ); /* Fallback aliases used in components */
+  /* Fallback aliases used in components */
+  --color-border-subtle: var(--glass);
+  --color-text-on-accent: var(--text-on-accent);
+
+  /* ── New Forex organism aliases ───────────────────────────────────── */
+  /* These map `brand` classes → same underlying --brand variable */
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-strong);
+  --color-brand-muted: color-mix(in srgb, var(--brand) 12%, transparent);
+
+  /* Semantic system colors for trade feedback */
+  --color-system-positive: var(--brand);
+  --color-system-negative: #ff4560;
+  --color-system-warning: #ffb800;
+}
+
+@layer base {
+  :root {
+    /* LIGHT MODE */
+    --bg: #f5f7f8;
+    --surface: #ffffff;
+    --surface-2: #f0f3f4;
+    --muted-surface: #fafbfb;
+
+    --text: #0b1113;
+    --text-muted: #5a6770;
+
+    --brand: #0e9f6e;
+    --brand-strong: #0b8a56;
+
+    --accent: #e2a400;
+
+    --border: rgba(11, 17, 19, 0.06);
+    --glass: rgba(11, 17, 19, 0.02);
+
+    /* Glow Tokens mapped */
+    --glow-primary:
+      0 0 24px rgba(14, 159, 110, 0.15), 0 0 8px rgba(14, 159, 110, 0.1);
+
+    --text-on-accent: #ffffff;
+
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: rgba(11, 17, 19, 0.1);
+  }
+
+  .dark {
+    /* DARK MODE */
+    --bg: #0b0e10;
+    --surface: #0f1416;
+    --surface-2: #14191b;
+    --muted-surface: #0b1213;
+
+    --text: #e6f0f1;
+    --text-muted: #9aa6a9;
+
+    --brand: #7af86a;
+    --brand-strong: #53e34a;
+
+    --accent: #ffd166;
+
+    --border: rgba(255, 255, 255, 0.04);
+    --glass: rgba(255, 255, 255, 0.02);
+
+    --text-on-accent: #0b0e10;
+
+    /* Glow Tokens mapped */
+    --glow-primary:
+      0 0 24px rgba(122, 248, 106, 0.15), 0 0 8px rgba(122, 248, 106, 0.08);
+
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: rgba(255, 255, 255, 0.1);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: "Inter", sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color 300ms ease,
+      color 300ms ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Space Grotesk", sans-serif;
+  }
+
+  /* All numbers use JetBrains Mono for perfect alignment */
+  .font-mono,
+  input[type="number"] {
+    font-family: "JetBrains Mono", monospace;
+    font-feature-settings: "tnum" 1;
+  }
+}
+
+@layer utilities {
+  .shadow-glow-primary {
+    box-shadow: var(--glow-primary);
+  }
+
+  .focus-ring-primary {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  .glass-card {
+    background-color: var(--surface);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+  }
+  .glass-panel {
+    background-color: var(--surface-2);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--glass);
+  }
+
+  /* Custom Scrollbar Utilities */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 9999px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 9999px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--brand);
+  }
+}
+
+/* Base keyframe animations */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 8px rgba(122, 248, 106, 0.1);
+  }
+  100% {
+    box-shadow: var(--glow-primary);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite alternate;
+}
+
+/* Staggered load animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-0 {
+  animation-delay: 0ms;
+}
+.delay-1 {
+  animation-delay: 80ms;
+}
+.delay-2 {
+  animation-delay: 160ms;
+}
+.delay-3 {
+  animation-delay: 240ms;
+}

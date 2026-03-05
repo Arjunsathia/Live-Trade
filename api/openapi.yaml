@@ -1,0 +1,333 @@
+openapi: "3.1.0"
+info:
+  title: Forex & Copy-Trading API
+  version: "1.0.0"
+  description: REST API for the Forex/Copy-Trading dashboard. Live data is delivered via WebSocket; this spec covers all stateful REST operations.
+
+servers:
+  - url: https://api.yourdomain.com/v1
+    description: Production
+
+tags:
+  - name: Auth
+  - name: Accounts
+  - name: Orders
+  - name: Positions
+  - name: Market
+  - name: Providers
+  - name: Copy
+
+paths:
+  # ─── Auth ────────────────────────────────────────────────
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Obtain JWT access + refresh tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+      responses:
+        "200":
+          description: Tokens
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken: { type: string }
+                  refreshToken: { type: string }
+
+  # ─── Accounts ────────────────────────────────────────────
+  /accounts/{accountId}:
+    get:
+      tags: [Accounts]
+      summary: Get account overview (balance, equity, margin)
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Account snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+
+  # ─── Market Data ────────────────────────────────────────
+  /market/ohlc:
+    get:
+      tags: [Market]
+      summary: Historical OHLC candlestick data (REST)
+      parameters:
+        - name: symbol
+          in: query
+          required: true
+          schema: { type: string, example: "EURUSD" }
+        - name: resolution
+          in: query
+          schema:
+            { type: string, enum: [1m, 5m, 15m, 1h, 4h, 1d], default: "1h" }
+        - name: from
+          in: query
+          schema: { type: integer, description: "Unix timestamp (seconds)" }
+        - name: to
+          in: query
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OHLC bars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OHLCBar"
+
+  /market/watchlist:
+    get:
+      tags: [Market]
+      summary: Get user's saved watchlist with latest quotes
+      responses:
+        "200":
+          description: Watchlist symbols + quotes
+
+  # ─── Orders ─────────────────────────────────────────────
+  /orders:
+    post:
+      tags: [Orders]
+      summary: Place a new market or limit order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderRequest"
+      responses:
+        "201":
+          description: Order accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+    get:
+      tags: [Orders]
+      summary: Get order history
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string, enum: [open, filled, cancelled] }
+      responses:
+        "200":
+          description: Array of orders
+
+  /orders/{orderId}:
+    delete:
+      tags: [Orders]
+      summary: Cancel a pending order
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Order cancelled
+
+  # ─── Positions ──────────────────────────────────────────
+  /accounts/{accountId}/positions:
+    get:
+      tags: [Positions]
+      summary: Get all open positions (WS updates add real-time P&L)
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: List of open positions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Position"
+
+  /accounts/{accountId}/positions/{positionId}:
+    delete:
+      tags: [Positions]
+      summary: Close a position (market close)
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: positionId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Position closed
+
+  # ─── Providers (Copy-Trading) ────────────────────────────
+  /providers:
+    get:
+      tags: [Providers]
+      summary: Get ranked provider leaderboard
+      parameters:
+        - name: sortBy
+          in: query
+          schema: { type: string, enum: [roi, followers, winRate, drawdown] }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+      responses:
+        "200":
+          description: Provider list with performance stats
+
+  /providers/{providerId}:
+    get:
+      tags: [Providers]
+      summary: Provider detail card (with trade history, equity curve, risk stats)
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Provider detail
+
+  # ─── Copy Relations ────────────────────────────────────
+  /copy/{providerId}/follow:
+    post:
+      tags: [Copy]
+      summary: Start copy-trading a provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                riskMultiplier:
+                  {
+                    type: number,
+                    default: 1.0,
+                    description: "Lot size scaling factor",
+                  }
+                maxDrawdown:
+                  { type: number, description: "Stop-copy threshold %" }
+                copyBudget:
+                  {
+                    type: number,
+                    description: "Max allocation in account currency",
+                  }
+      responses:
+        "201":
+          description: Copy relation created
+
+  /copy/{providerId}/unfollow:
+    delete:
+      tags: [Copy]
+      summary: Stop copying a provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Copy relation deleted
+
+# ─── Schemas ──────────────────────────────────────────────
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Account:
+      type: object
+      properties:
+        id: { type: string }
+        currency: { type: string }
+        balance: { type: number }
+        equity: { type: number }
+        margin: { type: number }
+        freeMargin: { type: number }
+        marginLevel: { type: number }
+        unrealizedPnl: { type: number }
+
+    OHLCBar:
+      type: object
+      properties:
+        t: { type: integer, description: "Unix timestamp (ms)" }
+        o: { type: number, description: "Open" }
+        h: { type: number, description: "High" }
+        l: { type: number, description: "Low" }
+        c: { type: number, description: "Close" }
+        v: { type: number, description: "Volume" }
+
+    OrderRequest:
+      type: object
+      required: [symbol, side, type, volume]
+      properties:
+        accountId: { type: string }
+        symbol: { type: string, example: "EURUSD" }
+        side: { type: string, enum: [buy, sell] }
+        type: { type: string, enum: [market, limit, stop] }
+        volume: { type: number, description: "Lot size" }
+        price: { type: number, description: "Required for limit/stop" }
+        stopLoss: { type: number }
+        takeProfit: { type: number }
+
+    Order:
+      type: object
+      properties:
+        id: { type: string }
+        symbol: { type: string }
+        side: { type: string }
+        type: { type: string }
+        volume: { type: number }
+        price: { type: number }
+        status: { type: string, enum: [pending, filled, cancelled, rejected] }
+        createdAt: { type: string, format: date-time }
+        filledAt: { type: string, format: date-time, nullable: true }
+
+    Position:
+      type: object
+      properties:
+        id: { type: string }
+        symbol: { type: string }
+        side: { type: string, enum: [buy, sell] }
+        volume: { type: number }
+        openPrice: { type: number }
+        currentPrice: { type: number }
+        stopLoss: { type: number, nullable: true }
+        takeProfit: { type: number, nullable: true }
+        unrealizedPnl: { type: number }
+        pips: { type: number }
+        openedAt: { type: string, format: date-time }
+
+security:
+  - BearerAuth: []

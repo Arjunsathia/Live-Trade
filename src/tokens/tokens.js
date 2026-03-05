@@ -1,0 +1,16 @@
+export const tokens = {
+    bg: 'var(--bg)',
+    surface: 'var(--surface)',
+    card: 'var(--card)',
+    cardAlt: 'var(--card-alt)',
+    border: 'var(--border)',
+    text: 'var(--text)',
+    muted: 'var(--muted)',
+    subtle: 'var(--subtle)',
+    accent: 'var(--accent)',
+    accentDim: 'var(--accent-dim)',
+    accentGlow: 'var(--accent-glow)',
+    danger: 'var(--danger)',
+    dangerDim: 'var(--danger-dim)',
+    success: 'var(--success)',
+};

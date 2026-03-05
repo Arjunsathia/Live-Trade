@@ -1,0 +1,137 @@
+{
+  "leaderboard": [
+    {
+      "id": "prv_001",
+      "name": "AlphaFX_Pro",
+      "avatar": null,
+      "joinedAt": "2024-01-15T00:00:00Z",
+      "roi30d": 14.8,
+      "roiAllTime": 187.3,
+      "winRate": 72.4,
+      "maxDrawdown": 8.2,
+      "followers": 3421,
+      "performanceFee": 20,
+      "isFollowing": true,
+      "equityCurve": [
+        100, 103, 108, 106, 115, 122, 118, 130, 128, 142, 155, 163, 187
+      ],
+      "topPairs": ["EURUSD", "XAUUSD", "US30"]
+    },
+    {
+      "id": "prv_002",
+      "name": "QuantEdge_FX",
+      "avatar": null,
+      "joinedAt": "2024-03-20T00:00:00Z",
+      "roi30d": 9.2,
+      "roiAllTime": 94.5,
+      "winRate": 68.1,
+      "maxDrawdown": 5.4,
+      "followers": 1847,
+      "performanceFee": 15,
+      "isFollowing": false,
+      "equityCurve": [
+        100, 101, 105, 103, 108, 111, 110, 115, 112, 118, 124, 130, 135, 142,
+        149, 155
+      ],
+      "topPairs": ["GBPUSD", "EURUSD", "USDJPY"]
+    },
+    {
+      "id": "prv_003",
+      "name": "SniperScalper",
+      "avatar": null,
+      "joinedAt": "2023-11-05T00:00:00Z",
+      "roi30d": 6.7,
+      "roiAllTime": 312.0,
+      "winRate": 64.9,
+      "maxDrawdown": 18.5,
+      "followers": 5108,
+      "performanceFee": 30,
+      "isFollowing": false,
+      "equityCurve": [
+        100, 108, 120, 110, 125, 140, 130, 160, 145, 200, 230, 280, 265, 312
+      ],
+      "topPairs": ["XAUUSD", "BTCUSD", "NAS100"]
+    },
+    {
+      "id": "prv_004",
+      "name": "SwingMaster_EU",
+      "avatar": null,
+      "joinedAt": "2024-06-10T00:00:00Z",
+      "roi30d": 3.1,
+      "roiAllTime": 41.2,
+      "winRate": 71.0,
+      "maxDrawdown": 3.8,
+      "followers": 892,
+      "performanceFee": 10,
+      "isFollowing": false,
+      "equityCurve": [
+        100, 102, 104, 103, 107, 110, 108, 112, 115, 119, 122, 125, 128, 131,
+        137, 141
+      ],
+      "topPairs": ["EURUSD", "EURGBP"]
+    }
+  ],
+  "providerDetail": {
+    "id": "prv_001",
+    "name": "AlphaFX_Pro",
+    "bio": "15 years of institutional FX trading. Low drawdown, trend-following strategy across majors and metals.",
+    "performanceFee": 20,
+    "minCopyBudget": 500,
+    "stats": {
+      "roi30d": 14.8,
+      "roi3m": 42.1,
+      "roi6m": 88.5,
+      "roiAllTime": 187.3,
+      "winRate": 72.4,
+      "maxDrawdown": 8.2,
+      "avgTradeHoldHours": 6.4,
+      "tradesPerMonth": 38,
+      "profitFactor": 2.1,
+      "sharpeRatio": 1.8
+    },
+    "monthlyReturns": [
+      { "month": "2025-09", "return": 3.2 },
+      { "month": "2025-10", "return": 7.1 },
+      { "month": "2025-11", "return": -1.4 },
+      { "month": "2025-12", "return": 5.8 },
+      { "month": "2026-01", "return": 9.3 },
+      { "month": "2026-02", "return": 4.5 }
+    ]
+  },
+  "copyEvents": [
+    {
+      "type": "copy_event",
+      "event": "copy_open",
+      "providerId": "prv_001",
+      "providerName": "AlphaFX_Pro",
+      "symbol": "EURUSD",
+      "side": "buy",
+      "masterVolume": 2.0,
+      "copiedVolume": 0.4,
+      "copyPrice": 1.0843,
+      "timestamp": 1709551210000
+    },
+    {
+      "type": "copy_event",
+      "event": "copy_close",
+      "providerId": "prv_001",
+      "providerName": "AlphaFX_Pro",
+      "symbol": "EURUSD",
+      "realizedPnl": 38.4,
+      "pips": 9.6,
+      "timestamp": 1709551800000
+    },
+    {
+      "type": "copy_event",
+      "event": "copy_open",
+      "providerId": "prv_001",
+      "providerName": "AlphaFX_Pro",
+      "symbol": "XAUUSD",
+      "side": "sell",
+      "masterVolume": 1.0,
+      "copiedVolume": 0.2,
+      "copyPrice": 2041.0,
+      "timestamp": 1709554400000
+    }
+  ]
+}

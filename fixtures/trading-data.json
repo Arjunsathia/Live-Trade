@@ -1,0 +1,108 @@
+{
+  "account": {
+    "id": "acc_xyz789",
+    "currency": "USD",
+    "balance": 10000.0,
+    "equity": 10180.5,
+    "margin": 420.0,
+    "freeMargin": 9760.5,
+    "marginLevel": 2423.93,
+    "unrealizedPnl": 180.5
+  },
+  "positions": [
+    {
+      "id": "pos_11aaa",
+      "symbol": "EURUSD",
+      "side": "buy",
+      "volume": 0.5,
+      "openPrice": 1.0843,
+      "currentPrice": 1.08526,
+      "stopLoss": 1.082,
+      "takeProfit": 1.089,
+      "unrealizedPnl": 48.0,
+      "pips": 9.6,
+      "openedAt": "2026-03-04T10:22:00Z"
+    },
+    {
+      "id": "pos_22bbb",
+      "symbol": "USDJPY",
+      "side": "sell",
+      "volume": 1.0,
+      "openPrice": 150.2,
+      "currentPrice": 149.82,
+      "stopLoss": 150.8,
+      "takeProfit": 149.0,
+      "unrealizedPnl": 25.36,
+      "pips": 38.0,
+      "openedAt": "2026-03-04T09:45:00Z"
+    },
+    {
+      "id": "pos_33ccc",
+      "symbol": "XAUUSD",
+      "side": "buy",
+      "volume": 0.1,
+      "openPrice": 2031.5,
+      "currentPrice": 2038.45,
+      "stopLoss": 2020.0,
+      "takeProfit": 2060.0,
+      "unrealizedPnl": 69.5,
+      "pips": 695.0,
+      "openedAt": "2026-03-04T08:10:00Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_11abc",
+      "symbol": "GBPUSD",
+      "side": "buy",
+      "type": "limit",
+      "volume": 0.5,
+      "price": 1.265,
+      "status": "pending",
+      "createdAt": "2026-03-04T11:00:00Z",
+      "filledAt": null
+    }
+  ],
+  "tradeHistory": [
+    {
+      "id": "trd_prev1",
+      "symbol": "EURUSD",
+      "side": "buy",
+      "volume": 1.0,
+      "openPrice": 1.0801,
+      "closePrice": 1.0835,
+      "realizedPnl": 340.0,
+      "pips": 34.0,
+      "closedAt": "2026-03-03T14:30:00Z"
+    },
+    {
+      "id": "trd_prev2",
+      "symbol": "GBPUSD",
+      "side": "sell",
+      "volume": 0.5,
+      "openPrice": 1.272,
+      "closePrice": 1.2678,
+      "realizedPnl": 210.0,
+      "pips": 42.0,
+      "closedAt": "2026-03-03T10:15:00Z"
+    }
+  ],
+  "orderBook": {
+    "symbol": "EURUSD",
+    "timestamp": 1709551200000,
+    "bids": [
+      { "price": 1.08526, "volume": 2.5 },
+      { "price": 1.08521, "volume": 5.0 },
+      { "price": 1.0851, "volume": 8.2 },
+      { "price": 1.0849, "volume": 12.0 },
+      { "price": 1.0847, "volume": 20.5 }
+    ],
+    "asks": [
+      { "price": 1.08529, "volume": 3.0 },
+      { "price": 1.08535, "volume": 4.5 },
+      { "price": 1.08548, "volume": 9.1 },
+      { "price": 1.0856, "volume": 15.0 },
+      { "price": 1.0858, "volume": 18.0 }
+    ]
+  }
+}
