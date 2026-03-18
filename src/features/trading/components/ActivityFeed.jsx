@@ -1,4 +1,5 @@
-import { Copy, TrendingUp, TrendingDown, Zap, ExternalLink, CheckCircle2, History } from 'lucide-react';
+import { Copy, TrendingUp, TrendingDown, Zap, ExternalLink, History } from 'lucide-react';
+import { formatPips, formatTimeAgo } from '../../../utils/formatters';
 
 const EVENT_LABELS = {
     copy_open: 'Started Copying',
@@ -11,9 +12,9 @@ function PipBadge({ pips, inverted = false }) {
     if (pips === undefined || pips === null) return null;
     const isPos = inverted ? pips < 0 : pips >= 0;
     return (
-        <span className={`inline-flex items-center justify-center px-1.5 py-0.5 rounded-[6px] font-mono text-[10px] font-bold tabular-nums tracking-tracking-tight
+        <span className={`inline-flex items-center justify-center px-1.5 py-0.5 rounded-[6px] font-mono text-[10px] font-bold tabular-nums tracking-tight
             ${isPos ? 'bg-brand/10 text-brand border border-brand/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
-            {isPos ? '+' : ''}{pips.toFixed(1)} PIPs
+            {formatPips(pips)} PIPs
         </span>
     );
 }
@@ -51,12 +52,7 @@ function FeedRow({ event, isLast, now }) {
     const isPositive = event.realizedPnl !== undefined ? event.realizedPnl >= 0 : true;
     const label = EVENT_LABELS[event.event] || event.event;
 
-    const timeAgo = (() => {
-        const diff = (now - event.timestamp) / 1000;
-        if (diff < 60) return `${Math.round(diff)}s ago`;
-        if (diff < 3600) return `${Math.round(diff / 60)}m ago`;
-        return `${Math.round(diff / 3600)}h ago`;
-    })();
+    const timeAgo = formatTimeAgo(event.timestamp, now);
 
     return (
         <div className="group relative flex items-stretch gap-3">

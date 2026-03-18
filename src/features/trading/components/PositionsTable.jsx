@@ -1,4 +1,5 @@
-import { X, TrendingUp, TrendingDown, BarChart2, ShieldAlert, Crosshair, HelpCircle } from 'lucide-react';
+import { X, TrendingUp, TrendingDown, BarChart2, ShieldAlert, Crosshair } from 'lucide-react';
+import { formatPrice, formatPips, formatCurrency } from '../../../utils/formatters';
 
 function SideBadge({ side }) {
     const isBuy = side === 'buy';
@@ -44,7 +45,7 @@ function PositionRow({ pos, onClose }) {
                     </span>
                     <div className="flex items-center gap-1.5">
                         <span className="font-mono text-[12px] font-bold text-text-muted tabular-nums uppercase tracking-wider">
-                            {pos.volume.toFixed(2)} LOTS
+                        {formatPrice(pos.volume, 2)} LOTS
                         </span>
                     </div>
                 </div>
@@ -54,11 +55,11 @@ function PositionRow({ pos, onClose }) {
             <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-6 items-center">
                 <MetricGroup
                     label="Entry Price"
-                    value={pos.openPrice.toFixed(5)}
+                    value={formatPrice(pos.openPrice)}
                 />
                 <MetricGroup
                     label="Current"
-                    value={pos.currentPrice.toFixed(5)}
+                    value={formatPrice(pos.currentPrice)}
                     valueClass={pos.currentPrice > pos.openPrice && pos.side === 'buy' || pos.currentPrice < pos.openPrice && pos.side === 'sell' ? 'text-brand' : 'text-text'}
                 />
 
@@ -70,7 +71,7 @@ function PositionRow({ pos, onClose }) {
                             <span className="text-[10px] font-bold uppercase text-text-muted tracking-wider">SL</span>
                         </div>
                         <span className="font-mono text-[12px] font-bold text-red-400 tabular-nums bg-red-500/10 px-2 py-0.5 rounded-[6px] border border-red-500/10">
-                            {pos.stopLoss ? pos.stopLoss.toFixed(5) : '—'}
+                            {pos.stopLoss ? formatPrice(pos.stopLoss) : '—'}
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -79,7 +80,7 @@ function PositionRow({ pos, onClose }) {
                             <span className="text-[10px] font-bold uppercase text-text-muted tracking-wider">TP</span>
                         </div>
                         <span className="font-mono text-[12px] font-bold text-brand tabular-nums bg-brand/10 px-2 py-0.5 rounded-[6px] border border-brand/10">
-                            {pos.takeProfit ? pos.takeProfit.toFixed(5) : '—'}
+                            {pos.takeProfit ? formatPrice(pos.takeProfit) : '—'}
                         </span>
                     </div>
                 </div>
@@ -90,10 +91,10 @@ function PositionRow({ pos, onClose }) {
                 <div className="flex flex-col items-start xl:items-end gap-0.5 min-w-[100px]">
                     <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-text-muted/60 xl:hidden">Floating PnL</span>
                     <span className={`font-mono text-[18px] font-bold tabular-nums tracking-tight ${isPos ? 'text-brand' : 'text-red-500'}`}>
-                        {isPos ? '+' : ''}${Math.abs(pos.unrealizedPnl).toFixed(2)}
+                        {formatCurrency(pos.unrealizedPnl)}
                     </span>
                     <span className={`font-mono text-[11px] font-bold tabular-nums ${isPos ? 'text-brand/70' : 'text-red-500/70'}`}>
-                        {isPos ? '+' : ''}{pos.pips.toFixed(1)} PIPs
+                        {formatPips(pos.pips)} PIPs
                     </span>
                 </div>
 
@@ -146,7 +147,7 @@ export function PositionsTable({ positions = [] }) {
                         <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-text-muted">Total Floating P&L</span>
                         <span className={`font-mono text-[22px] font-bold tabular-nums tracking-tighter leading-none
                             ${isPnlPositive ? 'text-brand' : 'text-red-500'}`}>
-                            {isPnlPositive ? '+' : '-'} ${Math.abs(totalPnl).toFixed(2)}
+                            {formatCurrency(totalPnl)}
                         </span>
                     </div>
                 )}
