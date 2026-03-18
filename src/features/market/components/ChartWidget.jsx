@@ -31,7 +31,7 @@ const generateForexData = () => {
     }));
 };
 
-export function ChartCard({ activeFilter = "1D", setActiveFilter }) {
+export function ChartWidget({ activeFilter = "1D", setActiveFilter }) {
     const filters = ["1M", "5M", "15M", "1H", "4H", "1D", "1W"];
     const [chartData, setChartData] = useState(generateForexData(activeFilter));
 

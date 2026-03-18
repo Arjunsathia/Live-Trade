@@ -1,6 +1,26 @@
-import { Search, Sun, Moon, Bell, Command, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { Search, Sun, Moon, Bell, Command, ChevronLeft } from 'lucide-react';
 
 export function Topbar({ collapsed, setCollapsed, theme, toggleTheme }) {
+    const location = useLocation();
+
+    // Derive page title from route path
+    const PAGE_TITLES = {
+        '':             'Dashboard',
+        'dashboard':    'Dashboard',
+        'trade':        'Trading Terminal',
+        'markets':      'Markets',
+        'copy':         'Copy Trading',
+        'portfolio':    'Portfolio',
+        'wallet':       'Wallet',
+        'analytics':    'Analytics',
+        'settings':     'Settings',
+        'login':        'Sign In',
+        'register':     'Create Account',
+    };
+    const segment = location.pathname.split('/').filter(Boolean)[0] || '';
+    const pageTitle = PAGE_TITLES[segment] ?? segment.charAt(0).toUpperCase() + segment.slice(1);
+
     return (
         <header className="flex items-center justify-between px-6 h-[64px] bg-bg/80 backdrop-blur-3xl sticky top-0 z-50 transition-all duration-300 border-b border-border/40">
 
@@ -11,16 +31,14 @@ export function Topbar({ collapsed, setCollapsed, theme, toggleTheme }) {
                     className="relative w-9 h-9 flex items-center justify-center rounded-[10px] bg-surface-elevated/30 border border-border/40 transition-all duration-300 hidden xl:flex group cursor-pointer hover:bg-surface-elevated hover:border-border/80"
                     aria-label="Toggle Sidebar"
                 >
-                    <div className="absolute inset-0 rounded-[10px] ring-1 ring-inset ring-brand/0 group-hover:ring-brand/10 transition-all duration-500 pointer-events-none"></div>
-
-                    <div className={`relative flex items-center justify-center w-[22px] h-[22px] rounded-full bg-surface/80 border transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-active:scale-90 ${collapsed ? '-rotate-180 border-brand/40' : 'rotate-0 border-border/80'}`}>
+                    <div className={`relative flex items-center justify-center w-[22px] h-[22px] rounded-full bg-surface/80 border transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-active:scale-90 pointer-events-none ${collapsed ? '-rotate-180 border-brand/40' : 'rotate-0 border-border/80'}`}>
                         <ChevronLeft size={13} strokeWidth={3} className={`relative right-[0.5px] transition-colors duration-300 ${collapsed ? 'text-brand' : 'text-text-muted group-hover:text-text'}`} />
                     </div>
                 </button>
 
                 <div className="hidden sm:flex flex-col justify-center pointer-events-none">
                     <h1 className="font-heading font-black text-[20px] text-text tracking-tighter leading-none m-0 pt-0.5">
-                        Overview
+                        {pageTitle}
                     </h1>
                 </div>
             </div>

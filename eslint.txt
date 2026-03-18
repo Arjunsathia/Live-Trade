@@ -1,0 +1,9 @@
+﻿
+E:\liveTrader\design-system\tailwind.config.js
+  2:1  error  'module' is not defined  no-undef
+
+E:\liveTrader\src\app\AppRouter.jsx
+  6:7  error  Fast refresh only works when a file only exports components. Move your component(s) to a separate file  react-refresh/only-export-components
+
+Γ£û 2 problems (2 errors, 0 warnings)
+
