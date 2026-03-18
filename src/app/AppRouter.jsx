@@ -6,68 +6,70 @@ import { ProtectedRoute } from '../components/ui/ProtectedRoute';
 import { LoginPage } from '../pages/auth/LoginPage';
 import { RegisterPage } from '../pages/auth/RegisterPage';
 
-export const appRouter = createBrowserRouter([
-  // Public Auth Routes
+export const appRouter = createBrowserRouter(
+  [
+    {
+      path: '/login',
+      element: <LoginPage />,
+    },
+    {
+      path: '/register',
+      element: <RegisterPage />,
+    },
+    {
+      path: '/',
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: '/',
+          element: <MainLayout />,
+          children: [
+            {
+              index: true,
+              element: <Navigate to="/dashboard" replace />,
+            },
+            {
+              path: 'dashboard',
+              element: <DashboardPage />,
+            },
+            {
+              path: 'trade/*',
+              element: <Placeholder name="Trading Terminal" />,
+            },
+            {
+              path: 'markets/*',
+              element: <Placeholder name="Markets" />,
+            },
+            {
+              path: 'copy/*',
+              element: <Placeholder name="Copy Trading Hub" />,
+            },
+            {
+              path: 'portfolio/*',
+              element: <Placeholder name="Portfolio" />,
+            },
+            {
+              path: 'wallet/*',
+              element: <Placeholder name="Wallet" />,
+            },
+            {
+              path: 'analytics/*',
+              element: <Placeholder name="Analytics" />,
+            },
+            {
+              path: 'settings/*',
+              element: <Placeholder name="Settings" />,
+            },
+          ],
+        },
+      ]
+    },
+    {
+      path: '*',
+      element: <Navigate to="/" replace />,
+    },
+  ],
   {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    path: '/register',
-    element: <RegisterPage />,
-  },
-  // Protected App Routes
-  {
-    path: '/',
-    element: <ProtectedRoute />,
-    children: [
-      {
-        path: '/',
-        element: <MainLayout />,
-        children: [
-          {
-            index: true,
-            element: <Navigate to="/dashboard" replace />,
-          },
-          {
-            path: 'dashboard',
-            element: <DashboardPage />,
-          },
-          {
-            path: 'trade/*',
-            element: <Placeholder name="Trading Terminal" />,
-          },
-          {
-            path: 'markets/*',
-            element: <Placeholder name="Markets" />,
-          },
-          {
-            path: 'copy/*',
-            element: <Placeholder name="Copy Trading Hub" />,
-          },
-          {
-            path: 'portfolio/*',
-            element: <Placeholder name="Portfolio" />,
-          },
-          {
-            path: 'wallet/*',
-            element: <Placeholder name="Wallet" />,
-          },
-          {
-            path: 'analytics/*',
-            element: <Placeholder name="Analytics" />,
-          },
-          {
-            path: 'settings/*',
-            element: <Placeholder name="Settings" />,
-          },
-        ],
-      },
-    ]
-  },
-  // Fallback Route
-  {
-    path: '*',
-    element: <Navigate to="/" replace />,
-  },
-]);
+    basename: import.meta.env.BASE_URL 
+  }
+);
