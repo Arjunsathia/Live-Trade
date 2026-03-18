@@ -102,10 +102,10 @@ export function Topbar({ collapsed, setCollapsed, theme, toggleTheme }) {
                 </button>
 
                 {/* Minimal Avatar */}
-                <div className="w-9 h-9 rounded-full border border-border/80 flex items-center justify-center cursor-pointer transition-all duration-300 hover:border-brand/40 hover:ring-2 hover:ring-brand/20 overflow-hidden relative group shrink-0 ml-1">
-                    {/* Updated sleek profile image */}
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop" alt="Profile" className="w-full h-full object-cover filter grayscale-[30%] contrast-110 group-hover:grayscale-0 transition-all duration-500" />
+                <div className="w-9 h-9 flex items-center justify-center rounded-full bg-surface-elevated text-text font-heading text-[13px] font-bold border border-border/80 cursor-pointer transition-all duration-300 hover:border-brand hover:text-brand hover:shadow-glow-primary relative group shrink-0 ml-1 tracking-wider overflow-hidden">
+                    JD
                     <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-full pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-brand/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                 </div>
             </div>
         </header>

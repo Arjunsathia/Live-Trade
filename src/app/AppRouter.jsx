@@ -10,11 +10,11 @@ export const appRouter = createHashRouter(
   [
     {
       path: '/login',
-      element: <LoginPage />,
+      element: <Navigate to="/" replace />,
     },
     {
       path: '/register',
-      element: <RegisterPage />,
+      element: <Navigate to="/" replace />,
     },
     {
       path: '/',

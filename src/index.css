@@ -69,30 +69,30 @@
   }
 
   .dark {
-    /* ── DARK MODE ── */
-    --bg: #0b0e10;
-    --surface: #0f1416;
-    --surface-2: #14191b;
-    --muted-surface: #0b1213;
+    /* ── DARK MODE (Premium Minimal) ── */
+    --bg: #09090b;             /* Pure deep zinc - almost black, extremely premium */
+    --surface: #18181b;        /* Elevated card surface - clear distinction from bg */
+    --surface-2: #27272a;      /* Secondary surface for hovers/inputs */
+    --muted-surface: #0f0f13;  /* Subdued wrapper background */
 
-    --text: #e6f0f1;
-    --text-muted: #9aa6a9;
+    --text: #fafafa;           /* Off-white text to reduce harsh contrast/eye strain */
+    --text-muted: #a1a1aa;     /* Elegant muted gray for secondary text */
 
-    /* Brand */
-    --brand: #7af86a;
-    --brand-strong: #53e34a;
+    /* Brand (Trading Themed) */
+    --brand: #10b981;          /* Emerald Green - vibrant but professional */
+    --brand-strong: #059669;
 
     /* Semantic system states */
-    --positive: #7af86a;        /* profit / success */
-    --negative: #ff4560;        /* loss / error / danger */
-    --warning: #ffb800;         /* caution */
-    --accent: #ffd166;          /* highlight / promo */
+    --positive: #10b981;       /* Profit / Success */
+    --negative: #f43f5e;       /* Loss / Error - Soft rose red instead of harsh pure red */
+    --warning: #f59e0b;        /* Caution - Amber */
+    --accent: #eab308;         /* Highlight - Gold */
 
-    --border: rgba(255, 255, 255, 0.04);
-    --glass: rgba(255, 255, 255, 0.02);
+    --border: rgba(255, 255, 255, 0.06); /* Nearly invisible borders for minimalist feel */
+    --glass: rgba(255, 255, 255, 0.03);  /* Softer glass feel */
 
-    --text-on-accent: #0b0e10;
-    --glow-primary: 0 0 24px rgba(122, 248, 106, 0.15), 0 0 8px rgba(122, 248, 106, 0.08);
+    --text-on-accent: #09090b;
+    --glow-primary: 0 0 20px rgba(16, 185, 129, 0.15), 0 0 8px rgba(16, 185, 129, 0.08); /* Refined glow */
     --scrollbar-track: transparent;
     --scrollbar-thumb: rgba(255, 255, 255, 0.1);
   }
@@ -216,7 +216,7 @@
 /* Base keyframe animations */
 @keyframes pulseGlow {
   0% {
-    box-shadow: 0 0 8px rgba(122, 248, 106, 0.1);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.1);
   }
   100% {
     box-shadow: var(--glow-primary);
