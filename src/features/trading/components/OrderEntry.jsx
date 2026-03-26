@@ -34,14 +34,9 @@ export function OrderEntry() {
     const isBuy = side === 'buy';
 
     return (
-        <div className="bg-surface border border-border/60 rounded-[28px] overflow-hidden shadow-[0_4px_30px_-10px_rgba(0,0,0,0.1)] relative transition-all duration-500 group/panel">
+        <div className="bg-surface-elevated border border-border rounded-[8px] overflow-hidden relative transition-all duration-500 group/panel h-full flex flex-col justify-between">
 
-            {/* Ambient Background Glow mapped to Side */}
-            <div className={`absolute -top-32 -right-32 w-64 h-64 blur-[100px] rounded-full pointer-events-none transition-colors duration-700 opacity-20
-                ${isBuy ? 'bg-brand' : 'bg-red-500'}`}
-            />
-
-            <div className="p-5 flex flex-col gap-5 relative z-10 w-full">
+            <div className="p-5 flex flex-col gap-4 relative z-10 w-full flex-1">
                 {/* Header */}
                 <div className="flex items-center justify-between pointer-events-none">
                     <div className="flex items-center gap-3">
@@ -55,14 +50,14 @@ export function OrderEntry() {
                 <div className="flex flex-col gap-3">
 
                     {/* Asset & Order Type Row */}
-                    <div className="flex bg-surface-elevated/40 border border-border/40 rounded-[14px] p-1 shadow-inner h-[40px]">
+                    <div className="flex bg-bg border border-border/40 rounded-[8px] p-1 shadow-inner h-[40px]">
                         {['market', 'limit', 'stop'].map(t => (
                             <button
                                 key={t}
                                 onClick={() => setOrderType(t)}
-                                className={`flex-1 rounded-[10px] text-[10px] font-bold uppercase tracking-[0.15em] transition-all duration-200 
+                                className={`flex-1 rounded-[6px] text-[10px] font-bold uppercase tracking-[0.15em] transition-all duration-200 
                                     ${orderType === t
-                                        ? 'bg-surface text-text shadow-sm border border-border/60'
+                                        ? 'bg-surface-elevated text-text shadow-sm border border-border/60'
                                         : 'text-text-muted hover:text-text hover:bg-surface/50 border border-transparent'
                                     }`}
                             >
@@ -76,7 +71,7 @@ export function OrderEntry() {
                         <select
                             value={symbol}
                             onChange={e => setSymbol(e.target.value)}
-                            className="w-full appearance-none bg-surface-elevated/60 border border-border/60 rounded-[12px] px-3 py-2.5 text-[14px] font-bold text-text pr-8 focus:outline-none focus:border-brand/50 transition-colors cursor-pointer hover:border-border/80 outline-none"
+                            className="w-full appearance-none bg-bg border border-border/60 rounded-[8px] px-3 py-2.5 text-[14px] font-bold text-text pr-8 focus:outline-none focus:border-primary/50 transition-colors cursor-pointer hover:border-border/80 outline-none"
                             style={{ fontFamily: 'Space Grotesk' }}
                         >
                             {PAIRS.map(p => <option key={p.s} value={p.s}>{p.s}</option>)}
@@ -85,19 +80,19 @@ export function OrderEntry() {
                     </div>
 
                     {/* Price Ticker Panel */}
-                    <div className="grid grid-cols-3 gap-1.5">
+                    <div className="grid grid-cols-3 gap-1.5 mt-1">
                         {/* BID */}
                         <div
                             onClick={() => setSide('sell')}
-                            className={`flex flex-col items-center justify-center py-2.5 rounded-[10px] border cursor-pointer transition-all duration-200
-                            ${!isBuy ? 'bg-red-500/10 border-red-500/30' : 'bg-surface-elevated/30 border-border/40 hover:border-red-500/20 hover:bg-red-500/5'}`}
+                            className={`flex flex-col items-center justify-center py-2.5 rounded-[8px] border cursor-pointer transition-all duration-200
+                            ${!isBuy ? 'bg-negative/10 border-negative/30' : 'bg-bg border-border/40 hover:border-negative/20 hover:bg-negative/5'}`}
                         >
-                            <span className={`text-[9px] font-bold uppercase tracking-[0.2em] mb-0.5 ${!isBuy ? 'text-red-500' : 'text-text-muted/60'}`}>Sell Base</span>
-                            <span className={`text-[13px] font-mono font-bold tabular-nums ${!isBuy ? 'text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.4)]' : 'text-text/80'}`}>{currentBid.toFixed(5)}</span>
+                            <span className={`text-[9px] font-bold uppercase tracking-[0.2em] mb-0.5 ${!isBuy ? 'text-negative' : 'text-text-muted/60'}`}>Sell Base</span>
+                            <span className={`text-[13px] font-mono font-bold tabular-nums ${!isBuy ? 'text-negative' : 'text-text/80'}`}>{currentBid.toFixed(5)}</span>
                         </div>
 
                         {/* SPREAD */}
-                        <div className="flex flex-col items-center justify-center py-2.5 bg-surface-elevated/20 border border-border/20 rounded-[10px] opacity-80 pointer-events-none">
+                        <div className="flex flex-col items-center justify-center py-2.5 bg-bg/50 border border-border/20 rounded-[8px] opacity-80 pointer-events-none">
                             <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-text-muted/50 mb-0.5">Spread</span>
                             <span className="text-[11px] font-mono font-medium text-text-muted tabular-nums tracking-wide">{spread}</span>
                         </div>
@@ -105,11 +100,11 @@ export function OrderEntry() {
                         {/* ASK */}
                         <div
                             onClick={() => setSide('buy')}
-                            className={`flex flex-col items-center justify-center py-2.5 rounded-[10px] border cursor-pointer transition-all duration-200
-                            ${isBuy ? 'bg-brand/10 border-brand/30' : 'bg-surface-elevated/30 border-border/40 hover:border-brand/20 hover:bg-brand/5'}`}
+                            className={`flex flex-col items-center justify-center py-2.5 rounded-[8px] border cursor-pointer transition-all duration-200
+                            ${isBuy ? 'bg-positive/10 border-positive/30' : 'bg-bg border-border/40 hover:border-positive/20 hover:bg-positive/5'}`}
                         >
-                            <span className={`text-[9px] font-bold uppercase tracking-[0.2em] mb-0.5 ${isBuy ? 'text-brand' : 'text-text-muted/60'}`}>Buy Base</span>
-                            <span className={`text-[13px] font-mono font-bold tabular-nums ${isBuy ? 'text-brand drop-shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 'text-text/80'}`}>{currentAsk.toFixed(5)}</span>
+                            <span className={`text-[9px] font-bold uppercase tracking-[0.2em] mb-0.5 ${isBuy ? 'text-positive' : 'text-text-muted/60'}`}>Buy Base</span>
+                            <span className={`text-[13px] font-mono font-bold tabular-nums ${isBuy ? 'text-positive' : 'text-text/80'}`}>{currentAsk.toFixed(5)}</span>
                         </div>
                     </div>
 
@@ -123,7 +118,7 @@ export function OrderEntry() {
                                 </label>
                             </div>
 
-                            <div className="relative rounded-[16px] border border-border/80 bg-surface-elevated/50 overflow-hidden focus-within:border-brand/50 transition-colors h-[44px] flex">
+                            <div className="relative rounded-[8px] border border-border/80 bg-bg overflow-hidden focus-within:border-primary/50 transition-colors h-[40px] flex">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[11px] font-semibold text-text-muted uppercase tracking-wider">Lots</span>
                                 <input
                                     type="number"
@@ -160,7 +155,7 @@ export function OrderEntry() {
                                 <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-text-muted/80 px-1">
                                     Target Entry Price
                                 </label>
-                                <div className="relative rounded-[16px] border border-border/80 bg-surface-elevated/50 overflow-hidden focus-within:border-brand/50 transition-colors h-[44px]">
+                                <div className="relative rounded-[8px] border border-border/80 bg-bg overflow-hidden focus-within:border-primary/50 transition-colors h-[40px]">
                                     <input
                                         type="number"
                                         value={price}
@@ -177,34 +172,34 @@ export function OrderEntry() {
                         <div className="grid grid-cols-2 gap-3 mt-1">
                             {/* SL */}
                             <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] font-semibold uppercase tracking-[0.15em] text-red-400/80 flex items-center gap-1.5 px-1">
+                                <label className="text-[10px] font-semibold uppercase tracking-[0.15em] text-negative/80 flex items-center gap-1.5 px-1">
                                     <Shield size={10} strokeWidth={2.5} /> Stop Loss
                                 </label>
-                                <div className="relative rounded-[16px] border border-red-500/20 bg-red-500/5 focus-within:border-red-500/40 transition-colors h-[44px] overflow-hidden">
+                                <div className="relative rounded-[8px] border border-negative/20 bg-bg focus-within:border-negative/40 transition-colors h-[40px] overflow-hidden">
                                     <input
                                         type="number"
                                         value={sl}
                                         onChange={e => setSl(e.target.value)}
                                         step="0.00001"
                                         placeholder="0.00000"
-                                        className="w-full h-full bg-transparent px-2 text-center font-mono text-[13px] font-bold text-red-400 focus:outline-none tabular-nums placeholder-red-500/20 outline-none"
+                                        className="w-full h-full bg-transparent px-2 text-center font-mono text-[13px] font-bold text-negative focus:outline-none tabular-nums placeholder-negative/20 outline-none"
                                     />
                                 </div>
                             </div>
 
                             {/* TP */}
                             <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] font-semibold uppercase tracking-[0.15em] text-brand/80 flex items-center gap-1.5 px-1">
+                                <label className="text-[10px] font-semibold uppercase tracking-[0.15em] text-positive/80 flex items-center gap-1.5 px-1">
                                     <Crosshair size={10} strokeWidth={2.5} /> Take Profit
                                 </label>
-                                <div className="relative rounded-[16px] border border-brand/20 bg-brand/5 focus-within:border-brand/40 transition-colors h-[44px] overflow-hidden">
+                                <div className="relative rounded-[8px] border border-positive/20 bg-bg focus-within:border-positive/40 transition-colors h-[40px] overflow-hidden">
                                     <input
                                         type="number"
                                         value={tp}
                                         onChange={e => setTp(e.target.value)}
                                         step="0.00001"
                                         placeholder="0.00000"
-                                        className="w-full h-full bg-transparent px-2 text-center font-mono text-[13px] font-bold text-brand focus:outline-none tabular-nums placeholder-brand/20 outline-none"
+                                        className="w-full h-full bg-transparent px-2 text-center font-mono text-[13px] font-bold text-positive focus:outline-none tabular-nums placeholder-positive/20 outline-none"
                                     />
                                 </div>
                             </div>
@@ -214,16 +209,16 @@ export function OrderEntry() {
                         <div className="flex flex-col gap-3 mt-2">
                             <button
                                 type="submit"
-                                className={`w-full py-4 rounded-[16px] font-bold text-[13px] uppercase tracking-[0.15em] flex items-center justify-center gap-2 transition-all duration-300
+                                className={`w-full py-3 rounded-[8px] font-bold text-[13px] uppercase tracking-[0.15em] flex items-center justify-center gap-2 transition-all duration-300
                                     ${isBuy
-                                        ? 'bg-brand/10 border border-brand/40 text-brand hover:bg-brand/20 hover:border-brand/60 active:scale-[0.98]'
-                                        : 'bg-red-500/10 border border-red-500/40 text-red-500 hover:bg-red-500/20 hover:border-red-500/60 active:scale-[0.98]'}`}
+                                        ? 'bg-positive/10 border border-positive/40 text-positive hover:bg-positive/20 hover:border-positive/60 active:scale-[0.98]'
+                                        : 'bg-negative/10 border border-negative/40 text-negative hover:bg-negative/20 hover:border-negative/60 active:scale-[0.98]'}`}
                             >
                                 {isBuy ? <TrendingUp size={15} strokeWidth={2.5} /> : <TrendingDown size={15} strokeWidth={2.5} />}
                                 {isBuy ? 'Place Buy' : 'Place Sell'} Order
                             </button>
 
-                            <div className="flex justify-between items-center px-4 py-3 bg-surface-elevated/40 border border-border/20 rounded-[14px]">
+                            <div className="flex justify-between items-center px-4 py-2.5 bg-bg border border-border/20 rounded-[8px]">
                                 <div className="flex items-center gap-1.5 text-text-muted/80">
                                     <Info size={12} className="opacity-70" />
                                     <span className="text-[10px] font-semibold uppercase tracking-wider">Required Margin</span>

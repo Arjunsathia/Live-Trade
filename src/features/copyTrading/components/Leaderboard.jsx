@@ -17,26 +17,26 @@ function MiniSparkline({ data, positive }) {
         <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="overflow-visible">
             <defs>
                 <linearGradient id={`grad-${positive}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={positive ? 'var(--color-brand)' : 'var(--color-negative)'} stopOpacity="0.2" />
-                    <stop offset="100%" stopColor={positive ? 'var(--color-brand)' : 'var(--color-negative)'} stopOpacity="0" />
+                    <stop offset="0%" stopColor={positive ? 'var(--color-positive)' : 'var(--color-negative)'} stopOpacity="0.2" />
+                    <stop offset="100%" stopColor={positive ? 'var(--color-positive)' : 'var(--color-negative)'} stopOpacity="0" />
                 </linearGradient>
             </defs>
             <path d={`M ${pts} V ${h} H 0 Z`} fill={`url(#grad-${positive})`} />
-            <polyline points={pts} fill="none" stroke={positive ? 'var(--color-brand)' : '#ff4560'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <polyline points={pts} fill="none" stroke={positive ? 'var(--color-positive)' : 'var(--color-negative)'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     );
 }
 
 function StatCard({ label, value, sub, positive }) {
     return (
-        <div className="bg-surface-elevated/40 border border-border/20 rounded-[12px] p-4 flex flex-col gap-1.5 relative overflow-hidden group hover:bg-surface-elevated/60 transition-colors">
+        <div className="bg-surface-elevated/40 border border-border/20 rounded-[8px] p-4 flex flex-col gap-1.5 relative overflow-hidden group hover:bg-surface-elevated/60 transition-colors">
             {positive !== undefined && (
                 <div className={`absolute top-0 right-0 w-12 h-12 opacity-[0.08] rounded-bl-[16px] transition-opacity group-hover:opacity-[0.15]
-                    ${positive ? 'bg-brand' : 'bg-red-500'}`} />
+                    ${positive ? 'bg-positive' : 'bg-negative'}`} />
             )}
             <span className="text-[10px] text-text-muted/80 uppercase tracking-[0.14em] font-semibold z-10">{label}</span>
             <span className={`text-[17px] font-mono font-bold tabular-nums tracking-tight z-10 leading-none
-                ${positive === undefined ? 'text-text' : positive ? 'text-brand' : 'text-red-400'}`}>
+                ${positive === undefined ? 'text-text' : positive ? 'text-positive' : 'text-negative'}`}>
                 {value}
             </span>
             {sub && <span className="text-[9px] text-text-muted/60 font-medium z-10">{sub}</span>}
@@ -59,16 +59,16 @@ function LargeSparkline({ data }) {
     const fillPts = `0,${h} ${pts} ${w},${h}`;
 
     return (
-        <div className="relative w-full h-[80px] overflow-hidden rounded-[12px] bg-surface-elevated/30 border border-border/40">
+        <div className="relative w-full h-[80px] overflow-hidden rounded-[8px] bg-surface-elevated/30 border border-border/40">
             <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="absolute inset-0">
                 <defs>
                     <linearGradient id="curveGradientLarge" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="var(--color-brand)" stopOpacity={0.25} />
-                        <stop offset="100%" stopColor="var(--color-brand)" stopOpacity={0} />
+                        <stop offset="0%" stopColor="var(--color-positive)" stopOpacity={0.25} />
+                        <stop offset="100%" stopColor="var(--color-positive)" stopOpacity={0} />
                     </linearGradient>
                 </defs>
                 <polygon points={fillPts} fill="url(#curveGradientLarge)" />
-                <polyline points={pts} fill="none" stroke="var(--color-brand)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <polyline points={pts} fill="none" stroke="var(--color-positive)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
         </div>
     );
@@ -82,17 +82,15 @@ function ProviderRow({ provider, rank, isSelected, onSelect }) {
     return (
         <button
             onClick={onSelect}
-            className={`w-full group relative flex items-center justify-between p-3 rounded-[14px] transition-all duration-300 border text-left overflow-hidden
+            className={`w-full group relative flex items-center justify-between p-4 transition-all duration-300 border-b border-border/30 text-left overflow-hidden last:border-b-0
                 ${isSelected
-                    ? 'bg-surface-elevated border-brand/20 shadow-sm shadow-brand/5'
-                    : 'bg-transparent border-transparent hover:bg-surface hover:border-border/30 hover:shadow-sm'}
+                    ? 'bg-surface-bright border-l-[3px] border-l-primary'
+                    : 'bg-transparent border-l-[3px] border-l-transparent hover:bg-surface-bright/50 hover:border-l-border/60'}
             `}
         >
-            {isSelected && <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-brand rounded-r-full"></div>}
-
-            <div className="flex items-center gap-3 min-w-0 z-10">
-                <div className={`shrink-0 w-8 h-8 rounded-[10px] flex items-center justify-center font-heading font-black text-[12px] 
-                    ${isTop1 ? 'bg-brand/10 text-brand ring-1 ring-brand/30' : 'bg-surface-elevated text-text-muted border border-border/50'}`}>
+            <div className="flex items-center gap-3 min-w-0 z-10 pl-1">
+                <div className={`shrink-0 w-8 h-8 rounded-[8px] flex items-center justify-center font-heading font-black text-[12px] 
+                    ${isTop1 ? 'bg-primary/10 text-primary border border-primary/30' : 'bg-surface-elevated text-text-muted border border-border/50'}`}>
                     {rank}
                 </div>
 
@@ -101,7 +99,7 @@ function ProviderRow({ provider, rank, isSelected, onSelect }) {
                         <span className="font-bold text-[13px] text-text tracking-tight truncate" style={{ fontFamily: 'Space Grotesk' }}>
                             {provider.name}
                         </span>
-                        {provider.isFollowing && <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />}
+                        {provider.isFollowing && <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />}
                     </div>
                     <div className="flex items-center gap-2 mt-0.5 opacity-60">
                         <span className="text-[10px] font-bold text-text-muted flex items-center gap-1 font-mono tabular-nums">
@@ -116,7 +114,7 @@ function ProviderRow({ provider, rank, isSelected, onSelect }) {
                     <MiniSparkline data={provider.equityCurve} positive={isPositive} />
                 </div>
                 <div className="flex flex-col items-end min-w-[50px]">
-                    <span className={`text-[13px] font-mono font-bold tracking-tight ${isPositive ? 'text-brand' : 'text-red-400'}`}>
+                    <span className={`text-[13px] font-mono font-bold tracking-tight ${isPositive ? 'text-positive' : 'text-negative'}`}>
                         {isPositive ? '+' : ''}{provider.roi30d}%
                     </span>
                     <span className="text-[9px] font-bold text-text-muted/60 uppercase tracking-widest mt-0.5">30d ROI</span>
@@ -135,30 +133,27 @@ export function Leaderboard({ providers = [] }) {
         <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between px-1">
                 <div className="flex flex-col gap-0.5">
-                    <h2 className="text-[16px] font-bold text-text-muted/90 tracking-tight" style={{ fontFamily: 'Space Grotesk' }}>Copy Leaderboard</h2>
-                    <p className="text-[11px] text-text-muted/80 font-medium uppercase tracking-[0.1em]">Top Performing Providers</p>
+                    <h2 className="text-[16px] font-bold text-text tracking-tight uppercase" style={{ fontFamily: 'Space Grotesk' }}>Copy Leaderboard</h2>
+                    <p className="text-[11px] text-text-muted font-bold uppercase tracking-[0.1em]">Top Performing Providers</p>
                 </div>
-                <button className="text-[11px] font-bold text-brand hover:brightness-125 transition-all uppercase tracking-[0.1em] px-3 py-1.5 rounded-[10px] bg-brand/10 border border-brand/20">
+                <button className="px-4 py-2 bg-surface-elevated border border-border/40 rounded-[8px] text-[11px] uppercase tracking-widest font-bold text-text hover:bg-surface-bright transition-colors">
                     Browse All
                 </button>
             </div>
 
             {/* 2-Pane Master Detail Card */}
-            <div className="bg-surface border border-border/60 rounded-[28px] overflow-hidden flex flex-col md:flex-row shadow-[0_4px_30px_-10px_rgba(0,0,0,0.1)] min-h-[520px] relative transition-all duration-500 group/panel">
-
-                {/* Ambient Background Glow (Top Right Design System) */}
-                <div className="absolute -top-32 -right-32 w-64 h-64 bg-brand blur-[100px] rounded-full pointer-events-none z-0 opacity-20 transition-all duration-700" />
+            <div className="bg-surface-elevated border border-border rounded-[8px] overflow-hidden flex flex-col md:flex-row min-h-[520px] relative transition-all duration-500 group/panel">
 
                 {/* Left Pane: List */}
                 <div className="w-full md:w-[35%] lg:w-[320px] bg-surface-elevated/30 border-b md:border-b-0 md:border-r border-border/40 flex flex-col shrink-0">
-                    <div className="p-3 border-b border-border/40">
+                    <div className="p-4 border-b border-border/40">
                         <input
                             type="text"
                             placeholder="Search providers..."
-                            className="w-full bg-surface-elevated border border-border/60 rounded-[12px] px-3.5 py-2.5 text-[12px] font-medium text-text focus:outline-none focus:border-brand/40 transition-colors placeholder-text-muted/40"
+                            className="w-full bg-bg border border-border/60 rounded-[8px] px-3.5 py-2.5 text-[12px] font-bold text-text focus:outline-none focus:border-primary/40 transition-colors placeholder-text-muted/40"
                         />
                     </div>
-                    <div className="flex-1 overflow-y-auto custom-scrollbar p-2 flex flex-col gap-1">
+                    <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col">
                         {providers.map((p, i) => (
                             <ProviderRow
                                 key={p.id}
@@ -173,9 +168,8 @@ export function Leaderboard({ providers = [] }) {
 
                 {/* Right Pane: Details */}
                 {selectedProvider ? (
-                    <div className="flex-1 flex flex-col bg-surface relative overflow-hidden animate-fade-up animate-duration-200">
-                        {/* Glow Detail */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-brand/5 blur-[80px] rounded-full pointer-events-none" />
+                    <div className="flex-1 flex flex-col bg-surface-elevated relative overflow-hidden animate-fade-up animate-duration-200">
+
 
                         <div className="p-6 flex-1 flex flex-col gap-6 overflow-y-auto custom-scrollbar relative z-10">
 
@@ -239,11 +233,11 @@ export function Leaderboard({ providers = [] }) {
                             </div>
 
                             {selectedProvider.isFollowing ? (
-                                <button className="px-8 py-3 rounded-[12px] bg-red-500/10 border border-red-500/20 text-red-500 font-bold text-[13px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-colors">
+                                <button className="px-8 py-3 rounded-[8px] bg-negative/10 border border-negative/20 text-negative font-bold text-[13px] uppercase tracking-widest hover:bg-negative hover:text-white transition-colors">
                                     Stop Copying
                                 </button>
                             ) : (
-                                <button className="flex-1 py-3 rounded-[12px] bg-brand text-black font-bold text-[13px] uppercase tracking-[0.1em] flex items-center justify-center gap-2 hover:bg-brand/90 active:bg-brand/80 transition-colors">
+                                <button className="flex-1 py-3 rounded-[8px] bg-primary text-bg font-bold text-[13px] uppercase tracking-[0.1em] flex items-center justify-center gap-2 hover:brightness-110 active:brightness-90 transition-colors">
                                     <Copy size={16} strokeWidth={2.5} />
                                     Copy Strategy
                                 </button>

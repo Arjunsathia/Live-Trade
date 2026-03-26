@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { Outlet, useLocation } from "react-router-dom";
@@ -10,15 +10,28 @@ export function MainLayout() {
 
     // ── Layout State ─────────────────────────────────────────────────
     const [collapsed, setCollapsed] = useState(false);
-    const [theme, setTheme] = useState("dark");
+    const [theme, setTheme] = useState(() => {
+        try { return localStorage.getItem('app-theme') || 'dark'; } catch { return 'dark'; }
+    });
 
     // Initialize layout behaviors
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.classList.toggle('dark', theme === 'dark');
+        try { localStorage.setItem('app-theme', theme); } catch {}
     }, [theme]);
 
     const toggleTheme = () => setTheme(prev => prev === "dark" ? "light" : "dark");
+
+    // ── Navigation Behaviors ─────────────────────────────────────────
+    const scrollContainerRef = useRef(null);
+
+    // Reset scroll position on route change
+    useEffect(() => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTo(0, 0);
+        }
+    }, [location.pathname]);
 
     useEffect(() => {
         const handleResize = () => setCollapsed(window.innerWidth < 1200);
@@ -28,13 +41,15 @@ export function MainLayout() {
     }, []);
 
     return (
-        <div className="flex bg-bg transition-colors duration-300 min-h-screen">
+        <div 
+            className="flex bg-bg transition-colors duration-300 h-screen w-full overflow-hidden"
+        >
             {/* 1. Global Navigation */}
-            <Sidebar active={activeNav} collapsed={collapsed} />
+            <Sidebar collapsed={collapsed} />
 
             {/* 2. Main Content Area */}
             <div
-                className="flex-1 flex flex-col transition-[margin-left] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                className="flex-1 flex flex-col h-screen relative transition-[margin-left] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]"
                 style={{ marginLeft: collapsed ? '72px' : '248px' }}
             >
                 {/* 3. Global Header */}
@@ -46,12 +61,25 @@ export function MainLayout() {
                 />
 
                 {/* 4. Page Content (Router Outlet) */}
-                <div className="flex-1 overflow-x-hidden p-6 custom-scrollbar">
-                    {/* The max-w container keeps content legible on ultra-wide screens */}
-                    <div className="w-full max-w-[1720px] mx-auto h-full">
-                        <Outlet />
-                    </div>
-                </div>
+                {(() => {
+                    const TERMINAL_ROUTES = ['/terminal'];
+                    const CHART_ROUTES    = ['/trade/chart'];
+                    const isTerminal = TERMINAL_ROUTES.some(r => location.pathname.startsWith(r));
+                    const isChart    = CHART_ROUTES.some(r => location.pathname.startsWith(r));
+
+                    // Unified wrapper with dynamic classes to prevent layout snapping
+                    return (
+                        <div 
+                            ref={scrollContainerRef}
+                            className={`flex-1 flex flex-col min-h-0 ${isTerminal || isChart ? 'overflow-hidden' : 'overflow-y-auto custom-scrollbar'} p-6 transition-all duration-300`}
+                            style={{ scrollbarGutter: 'stable' }}
+                        >
+                            <div className={`w-full flex-1 min-h-0 mx-auto flex flex-col ${isChart || isTerminal ? 'max-w-none' : 'max-w-[1720px]'}`}>
+                                <Outlet />
+                            </div>
+                        </div>
+                    );
+                })()}
             </div>
         </div>
     );

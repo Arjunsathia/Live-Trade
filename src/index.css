@@ -14,6 +14,7 @@
   --color-surface: var(--surface);
   --color-surface-elevated: var(--surface-2);
   --color-muted-surface: var(--muted-surface);
+  --color-surface-bright: var(--surface-bright);
   --color-border: var(--border);
   --color-glass: var(--glass);
 
@@ -23,6 +24,7 @@
   --color-brand-muted: color-mix(in srgb, var(--brand) 12%, transparent);
   --color-primary: var(--brand);
   --color-primary-hover: var(--brand-strong);
+  --color-primary-container: var(--brand-strong);
 
   /* Text */
   --color-text: var(--text);
@@ -40,61 +42,65 @@
 
 @layer base {
   :root {
-    /* ── LIGHT MODE ── */
-    --bg: #f5f7f8;
+    /* ── DIGITAL OBSIDIAN (Light) ── */
+    --bg: #f8fafc;
     --surface: #ffffff;
-    --surface-2: #f0f3f4;
-    --muted-surface: #fafbfb;
+    --surface-2: #f1f5f9;
+    --muted-surface: #e2e8f0;
+    --surface-bright: #cbd5e1;
 
-    --text: #0b1113;
-    --text-muted: #5a6770;
+    --text: #0b1326;
+    --text-muted: #424754;
 
-    /* Brand — identity only. Do NOT use for system feedback. */
-    --brand: #0e9f6e;
-    --brand-strong: #0b8a56;
+    /* The Accents */
+    --brand: #2a4a8a;
+    --brand-strong: #1e3a8a;
 
-    /* Semantic system states — separate from brand */
-    --positive: #0e9f6e;        /* profit / success */
-    --negative: #e53858;        /* loss / error / danger */
-    --warning: #d98c00;         /* caution */
-    --accent: #e2a400;          /* highlight / promo */
+    --positive: #2db85a;
+    --negative: #dc2626;
+    --warning: #d97706;
+    --accent: #2a4a8a;
 
-    --border: rgba(11, 17, 19, 0.06);
-    --glass: rgba(11, 17, 19, 0.02);
+    --border: rgba(66, 71, 84, 0.15);
+    --glass: rgba(255, 255, 255, 0.6);
 
-    --glow-primary: 0 0 24px rgba(14, 159, 110, 0.15), 0 0 8px rgba(14, 159, 110, 0.1);
     --text-on-accent: #ffffff;
+    --glow-primary:
+      0 0 24px rgba(42, 74, 138, 0.15), 0 0 8px rgba(42, 74, 138, 0.08);
     --scrollbar-track: transparent;
-    --scrollbar-thumb: rgba(11, 17, 19, 0.1);
+    --scrollbar-thumb: rgba(66, 71, 84, 0.1);
   }
 
   .dark {
-    /* ── DARK MODE (Premium Minimal) ── */
-    --bg: #09090b;             /* Pure deep zinc - almost black, extremely premium */
-    --surface: #18181b;        /* Elevated card surface - clear distinction from bg */
-    --surface-2: #27272a;      /* Secondary surface for hovers/inputs */
-    --muted-surface: #0f0f13;  /* Subdued wrapper background */
+    /* ── DIGITAL OBSIDIAN (Dark) ── */
+    --bg: #0b1326; /* Primary void */
+    --surface: #060e20; /* Card surface */
+    --surface-2: #131b2e; /* Section surface / Nav */
+    --muted-surface: #1a2540; /* Active panels */
+    --surface-bright: #31394d; /* Hover rank */
 
-    --text: #fafafa;           /* Off-white text to reduce harsh contrast/eye strain */
-    --text-muted: #a1a1aa;     /* Elegant muted gray for secondary text */
+    --text: #dae2fd; /* on_surface */
+    --text-muted: #c2c6d6; /* on_surface_variant */
 
-    /* Brand (Trading Themed) */
-    --brand: #10b981;          /* Emerald Green - vibrant but professional */
-    --brand-strong: #059669;
+    /* The Accents */
+    --brand: #adc6ff; /* Primary Focus Blue */
+    --brand-strong: #2a4a8a; /* Primary Container */
 
-    /* Semantic system states */
-    --positive: #10b981;       /* Profit / Success */
-    --negative: #f43f5e;       /* Loss / Error - Soft rose red instead of harsh pure red */
-    --warning: #f59e0b;        /* Caution - Amber */
-    --accent: #eab308;         /* Highlight - Gold */
+    --positive: #4ae176; /* Bioluminescent Green */
+    --positive-dim: #2db85a; /* Buy button green */
 
-    --border: rgba(255, 255, 255, 0.06); /* Nearly invisible borders for minimalist feel */
-    --glass: rgba(255, 255, 255, 0.03);  /* Softer glass feel */
+    --negative: #ffb3ad; /* Sophisticated Red */
+    --warning: #f59e0b;
+    --accent: #adc6ff;
 
-    --text-on-accent: #09090b;
-    --glow-primary: 0 0 20px rgba(16, 185, 129, 0.15), 0 0 8px rgba(16, 185, 129, 0.08); /* Refined glow */
+    --border: rgba(66, 71, 84, 0.15); /* Ghost Border */
+    --glass: rgba(34, 47, 74, 0.6);
+
+    --text-on-accent: #0b1326;
+    --glow-primary:
+      0 0 24px rgba(173, 198, 255, 0.15), 0 0 8px rgba(173, 198, 255, 0.08); /* Blue glow */
     --scrollbar-track: transparent;
-    --scrollbar-thumb: rgba(255, 255, 255, 0.1);
+    --scrollbar-thumb: rgba(173, 198, 255, 0.1);
   }
 
   body {
@@ -116,11 +122,13 @@
   h5,
   h6 {
     font-family: "Space Grotesk", sans-serif;
+    letter-spacing: -0.02em;
   }
 
   /* All numbers use JetBrains Mono for perfect alignment */
   .font-mono,
-  input[type="number"] {
+  input[type="number"],
+  .price-data {
     font-family: "JetBrains Mono", monospace;
     font-feature-settings: "tnum" 1;
   }
@@ -131,9 +139,17 @@
     box-shadow: var(--glow-primary);
   }
 
+  .shadow-atmospheric {
+    box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.4);
+  }
+
   .focus-ring-primary {
     outline: 2px solid var(--brand);
     outline-offset: 2px;
+  }
+
+  .ghost-border {
+    border: 1px solid var(--border);
   }
 
   .glass-card {
@@ -141,10 +157,27 @@
     backdrop-filter: blur(20px);
     border: 1px solid var(--border);
   }
+
   .glass-panel {
     background-color: var(--surface-2);
     backdrop-filter: blur(24px);
-    border: 1px solid var(--glass);
+    border: 1px solid var(--border);
+  }
+
+  .glass-order-panel {
+    background-color: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+  }
+
+  .btn-buy {
+    background: linear-gradient(135deg, var(--positive), var(--positive-dim));
+    color: var(--bg);
+  }
+
+  .btn-sell {
+    background: linear-gradient(135deg, var(--negative), #dc2626);
+    color: #fff;
   }
 
   /* ── Global Scrollbar — sleek & minimal ── */
@@ -188,7 +221,7 @@
     background: color-mix(in srgb, var(--brand) 60%, transparent);
   }
   .sidebar-scroll {
-    scrollbar-width: none;  /* hide Firefox scrollbar by default */
+    scrollbar-width: none;
   }
   .sidebar-scroll:hover {
     scrollbar-width: thin;
@@ -216,7 +249,7 @@
 /* Base keyframe animations */
 @keyframes pulseGlow {
   0% {
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.1);
+    box-shadow: 0 0 8px rgba(173, 198, 255, 0.1);
   }
   100% {
     box-shadow: var(--glow-primary);
@@ -229,19 +262,22 @@
 
 /* Staggered load animations */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
 .animate-fade-up {
   opacity: 0;
-  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .delay-0 {
